@@ -355,12 +355,13 @@ class RecommenderEngine:
 
     def health(self):
         return {
-            "metadata_loaded": self.meta is not None,
-            "model_loaded": self.model is not None,
-            "faiss_loaded": self.index is not None,
-            "embeddings_loaded": self.embeddings is not None,
-            "llm_rewrite_enabled": ENABLE_LLM_REWRITE,
-        }
+        "status": "ok",
+        "metadata_loaded": self.meta is not None,
+        "model_loaded": self.model is not None,
+        "faiss_loaded": self.index is not None,
+        "embeddings_loaded": self.embeddings is not None,
+        "llm_rewrite_enabled": ENABLE_LLM_REWRITE,
+    }
 
     def recommend(
         self,

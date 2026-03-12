@@ -1,22 +1,12 @@
-from contextlib import asynccontextmanager
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.engine import engine
 from app.schemas import RecommendRequest, RecommendResponse
 
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    engine.startup()
-    yield
-
-
 app = FastAPI(
     title="Mario Movie Recommender API",
     version="1.0.0",
-    lifespan=lifespan,
 )
 
 app.add_middleware(
