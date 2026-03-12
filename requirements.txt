@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+pydantic
+numpy
+pandas
+sentence-transformers
+huggingface-hub
+pyarrow
+faiss-cpu
+transformers
+torch
