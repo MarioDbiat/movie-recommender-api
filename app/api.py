@@ -19,6 +19,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+def startup_event():
+    engine.load_all()
 
 @app.get("/")
 def root():

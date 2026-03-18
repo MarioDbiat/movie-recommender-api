@@ -290,6 +290,15 @@ class RecommenderEngine:
             token=HF_TOKEN,
         )
 
+    def load_all(self):
+        self.load_metadata()
+        self.load_faiss()
+    
+        if os.getenv("LOAD_EMB") == "1":
+            self.load_embeddings()
+    
+        self.load_model()
+
     def load_model(self):
         if self.model is None:
             from sentence_transformers import SentenceTransformer
