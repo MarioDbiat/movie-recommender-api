@@ -21,7 +21,8 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup_event():
-    engine.load_all()
+    engine.load_metadata()
+    engine.load_faiss()
 
 @app.get("/")
 def root():
