@@ -5,7 +5,6 @@ from typing import List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
-from sentence_transformers import SentenceTransformer
 from huggingface_hub import hf_hub_download
 
 warnings.filterwarnings("ignore", message="You are using `torch.load` with `weights_only=False`")
@@ -293,6 +292,7 @@ class RecommenderEngine:
 
     def load_model(self):
         if self.model is None:
+            from sentence_transformers import SentenceTransformer
             self.model = SentenceTransformer(MODEL_ID)
         return self.model
 
