@@ -1,9 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+import traceback
 
 from app.engine import engine
 from app.schemas import RecommendRequest, RecommendResponse
-
 import os
 
 app = FastAPI(
@@ -28,7 +28,6 @@ def startup_event():
 def root():
     return {"message": "Movie recommender API is running."}
 
-
 @app.get("/health")
 def health():
     return {
@@ -44,18 +43,20 @@ def health():
         "LOAD_EMB": os.getenv("LOAD_EMB"),
     }
 
-
 @app.post("/recommend", response_model=RecommendResponse)
 def recommend(req: RecommendRequest):
     if not req.query.strip():
         raise HTTPException(status_code=400, detail="Query cannot be empty.")
 
-    return engine.recommend(
-        query=req.query,
-        franchise_only=req.franchise_only,
-        safe_mode=req.safe_mode,
-        use_genres=req.use_genres,
-        use_popularity=req.use_popularity,
-        top_k=req.top_k,
-        search_mode=req.search_mode,
-    )
+    try:
+        return engine.recommend(
+            query=req.query,
+            franchise_only=req.franchise_only,
+            safe_mode=req.safe_mode,
+            use_genres=req.use_genres,
+            use_popularity=req.use_popularity,
+            top_k=req.top_k,
+            search_mode=req.search_mode,
+        )
+    except Exception:
+        raise HTTPException(status_code=500, detail=traceback.format_exc())
