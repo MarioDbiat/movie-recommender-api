@@ -1,9 +1,11 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 fastapi
-uvicorn[standard]
-pydantic
+uvicorn
+sentence-transformers
+faiss-cpu
 numpy
 pandas
-sentence-transformers
-huggingface-hub
 pyarrow
-faiss-cpu
+requests
+torch==2.1.0+cpu
