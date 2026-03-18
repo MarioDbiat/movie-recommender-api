@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.engine import engine
 from app.schemas import RecommendRequest, RecommendResponse
 
+import os
+
 app = FastAPI(
     title="Mario Movie Recommender API",
     version="1.0.0",
@@ -25,7 +27,18 @@ def root():
 
 @app.get("/health")
 def health():
-    return engine.health()
+    return {
+        "status": "ok",
+        "metadata_loaded": engine.meta is not None,
+        "model_loaded": engine.model is not None,
+        "faiss_loaded": engine.index is not None,
+        "embeddings_loaded": engine.embeddings is not None,
+        "llm_rewrite_enabled": os.getenv("ENABLE_LLM_REWRITE"),
+        "FULL_PARQUET": os.getenv("FULL_PARQUET"),
+        "FULL_INDEX": os.getenv("FULL_INDEX"),
+        "FULL_EMB": os.getenv("FULL_EMB"),
+        "LOAD_EMB": os.getenv("LOAD_EMB"),
+    }
 
 
 @app.post("/recommend", response_model=RecommendResponse)
